@@ -1,0 +1,72 @@
+volumes:
+  grafana-data:
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.121.0
+    restart: always
+    command:
+      - --config=/etc/otelcol-contrib/otel-collector.yml
+    volumes:
+      - ./otel-collector.yml:/etc/otelcol-contrib/otel-collector.yml
+    expose:
+      - "4318"
+    ports:
+      - "8889:8889" # Prometheus exporter metrics
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+    
+    depends_on:
+      - tempo
+      #- jaeger
+      - loki
+
+  #jaeger:
+  #  image: jaegertracing/all-in-one:1.50
+  #  ports:
+  #    - "16686:16686"
+  #    - "14250"
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.47.2
+    restart: always
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
+
+  tempo:
+    image: grafana/tempo:latest
+    command: [ "-config.file=/etc/tempo.yml" ]
+    volumes:
+      - ./tempo.yml:/etc/tempo.yml
+    ports:
+      - "3200:3200"   # tempo
+      - "4317"  # otlp grpc
+
+  #library-users-api:
+  #  container_name: library-users-api
+  #  build:
+  #    context: ../library-users
+  #  ports:
+  #    - "8081:8081"
+  #  depends_on:
+  #    - otel-collector

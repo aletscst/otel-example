@@ -1,0 +1,30 @@
+package com.ammfec.db;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
+public class UserModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Integer id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "name")
+    private String name;
+}
