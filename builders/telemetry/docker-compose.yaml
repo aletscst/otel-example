@@ -4,7 +4,7 @@ volumes:
 services:
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.121.0
-    restart: always
+    #restart: always
     command:
       - --config=/etc/otelcol-contrib/otel-collector.yml
     volumes:
@@ -43,7 +43,7 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:v2.47.2
-    restart: always
+    #restart: always
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
@@ -61,12 +61,3 @@ services:
     ports:
       - "3200:3200"   # tempo
       - "4317"  # otlp grpc
-
-  #library-users-api:
-  #  container_name: library-users-api
-  #  build:
-  #    context: ../library-users
-  #  ports:
-  #    - "8081:8081"
-  #  depends_on:
-  #    - otel-collector

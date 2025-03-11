@@ -3,7 +3,13 @@ receivers:
     protocols:
       http:
         endpoint: "0.0.0.0:4318"
+        auth:
+          authenticator: bearertokenauth
       grpc:
+
+extensions:
+  bearertokenauth:
+    token: "api-token-here"
 
 processors:
   # batch metrics before sending to reduce API usage
@@ -30,6 +36,7 @@ exporters:
   #    insecure: true
 
 service:
+  extensions: [bearertokenauth]
   pipelines:
     metrics:
       receivers: [otlp]
