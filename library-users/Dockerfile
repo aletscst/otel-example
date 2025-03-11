@@ -17,6 +17,7 @@ ENV MYSQL_HOST="host.docker.internal:3306"
 ENV OTEL_EXPORTER_OTLP_ENDPOINT="http://host.docker.internal:4318"
 ENV OTEL_JAVAAGENT_LOGGING="application"
 ENV OTEL_SERVICE_NAME="library-users"
+ENV OTEL_EXPORTER_OTLP_HEADERS="Bearer api-token-here"
 
 COPY --from=maven_build /target/*.jar ./
 COPY --from=maven_build /src/main/resources/opentelemetry-javaagent.jar ./
