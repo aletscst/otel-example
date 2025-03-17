@@ -1,15 +1,18 @@
 package com.ammfec.service;
 
-import com.ammfec.db.UserModel;
-import com.ammfec.db.UserRepository;
-import com.ammfec.dto.User;
+import com.ammfec.db.model.UserModel;
+import com.ammfec.db.repository.UserRepository;
+import com.ammfec.dto.general.User;
+import com.ammfec.dto.request.UserRequest;
+import com.ammfec.dto.response.UserResponse;
+import com.ammfec.dto.response.UsersResponse;
+import com.ammfec.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -18,47 +21,59 @@ public class UserServiceImp implements UserService {
     private UserRepository repository;
 
     @Override
-    public List<User> getUsers() {
+    public UsersResponse getUsers() {
         Iterable<UserModel> usersModel = repository.findAll();
+
+        UsersResponse response = new UsersResponse();
 
         List<User> users = new ArrayList<>();
         for (UserModel userModel : usersModel) {
-            User user = User.builder()
-                    .id(userModel.getId())
-                    .name(userModel.getName())
-                    .lastName(userModel.getLastName())
-                    .email(userModel.getEmail())
-                    .type(userModel.getType())
-                    .address(userModel.getAddress())
-                    .build();
+            User user = new User();
+            user.setId(userModel.getId());
+            user.setName(userModel.getName());
+            user.setLastName(userModel.getLastName());
+            user.setEmail(userModel.getEmail());
+            user.setType(userModel.getType());
+            user.setAddress(userModel.getAddress());
 
             users.add(user);
         }
 
-        return users;
+        response.setUsers(users);
+
+        return response;
     }
 
     @Override
-    public User getUser(Integer id) {
-        Optional<UserModel> userModel = repository.findById(id);
+    public UserResponse getUser(Integer id) {
+        UserModel userModel = repository.findById(id).orElseThrow(() -> {
+            log.error("User not found: {}", id);
+            return new NotFoundException("User " + id + " not found");
+        });
 
-        return userModel.map(model -> User.builder()
-                .id(model.getId())
-                .name(model.getName())
-                .lastName(model.getLastName())
-                .email(model.getEmail())
-                .type(model.getType())
-                .address(model.getAddress())
-                .build()).orElse(null);
+        UserResponse response = new UserResponse();
+        response.setId(userModel.getId());
+
+        User user = new User();
+        user.setId(userModel.getId());
+        user.setName(userModel.getName());
+        user.setLastName(userModel.getLastName());
+        user.setEmail(userModel.getEmail());
+        user.setType(userModel.getType());
+        user.setAddress(userModel.getAddress());
+
+        response.setUser(user);
+
+        return response;
     }
 
     @Override
-    public User createUser(User user) {
+    public UserResponse createUser(UserRequest user) {
         return null;
     }
 
     @Override
-    public User updateUser(Integer id, User user) {
+    public UserResponse updateUser(Integer id, UserRequest user) {
         return null;
     }
 
@@ -66,4 +81,5 @@ public class UserServiceImp implements UserService {
     public void deleteUser(Integer id) {
 
     }
+
 }

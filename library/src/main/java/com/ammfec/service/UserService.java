@@ -1,9 +1,12 @@
 package com.ammfec.service;
 
-import com.ammfec.dto.User;
+import com.ammfec.dto.response.UserResponse;
+import com.ammfec.dto.response.UsersResponse;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
+    UsersResponse getAllUsers();
+
+    UserResponse getUser(Integer id);
 }

@@ -53,7 +53,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -146,7 +147,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -235,7 +237,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -289,6 +292,194 @@
         {
             "datasource": {
                 "default": false,
+                "type": "prometheus",
+                "uid": "def8omuwb5zwge"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [
+                        {
+                            "options": {
+                                "1": {
+                                    "color": "dark-red",
+                                    "index": 0,
+                                    "text": "DOWN"
+                                }
+                            },
+                            "type": "value"
+                        },
+                        {
+                            "options": {
+                                "match": "null",
+                                "result": {
+                                    "color": "semi-dark-green",
+                                    "index": 1,
+                                    "text": "UP"
+                                }
+                            },
+                            "type": "special"
+                        }
+                    ],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 3,
+                "x": 9,
+                "y": 0
+            },
+            "id": 8,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+            },
+            "pluginVersion": "11.2.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "def8omuwb5zwge"
+                    },
+                    "disableTextWrap": false,
+                    "editorMode": "builder",
+                    "expr": "absent({exported_job=\"library-books\"})",
+                    "fullMetaSearch": false,
+                    "includeNullMetadata": true,
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
+                }
+            ],
+            "title": "UP Library Books",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "default": false,
+                "type": "prometheus",
+                "uid": "def8omuwb5zwge"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [
+                        {
+                            "options": {
+                                "1": {
+                                    "color": "dark-red",
+                                    "index": 0,
+                                    "text": "DOWN"
+                                }
+                            },
+                            "type": "value"
+                        },
+                        {
+                            "options": {
+                                "match": "null",
+                                "result": {
+                                    "color": "semi-dark-green",
+                                    "index": 1,
+                                    "text": "UP"
+                                }
+                            },
+                            "type": "special"
+                        }
+                    ],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 3,
+                "x": 12,
+                "y": 0
+            },
+            "id": 9,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+            },
+            "pluginVersion": "11.2.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "def8omuwb5zwge"
+                    },
+                    "disableTextWrap": false,
+                    "editorMode": "builder",
+                    "expr": "absent({exported_job=\"library-loans\"})",
+                    "fullMetaSearch": false,
+                    "includeNullMetadata": true,
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
+                }
+            ],
+            "title": "UP Library Loans",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "default": false,
                 "type": "tempo",
                 "uid": "aef8onwtx5la8c"
             },
@@ -309,7 +500,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -358,7 +550,7 @@
                             "scope": "resource",
                             "tag": "service.name",
                             "value": [
-                                "library"
+                                "library-api"
                             ],
                             "valueType": "string"
                         }
@@ -403,7 +595,7 @@
                         "uid": "def36ufwo6mm8f"
                     },
                     "editorMode": "builder",
-                    "expr": "{service_name=\"library\"} | json | line_format `[{{.level}}] {{.body}}`",
+                    "expr": "{service_name=\"library-api\"} | json | line_format `[{{.level}}] {{.body}}`",
                     "queryType": "range",
                     "refId": "A"
                 }
@@ -419,7 +611,7 @@
             },
             "gridPos": {
                 "h": 10,
-                "w": 11,
+                "w": 12,
                 "x": 0,
                 "y": 25
             },
@@ -447,6 +639,82 @@
                 }
             ],
             "title": "Logs Library Users",
+            "type": "logs"
+        },
+        {
+            "datasource": {
+                "default": true,
+                "type": "loki",
+                "uid": "fef8olyczs2rka"
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 12,
+                "x": 12,
+                "y": 25
+            },
+            "id": 10,
+            "options": {
+                "dedupStrategy": "none",
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": true,
+                "sortOrder": "Ascending",
+                "wrapLogMessage": false
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "def36ufwo6mm8f"
+                    },
+                    "editorMode": "builder",
+                    "expr": "{service_name=\"library-books\"} | json | line_format `[{{.level}}] {{.body}}`",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "Logs Library Books",
+            "type": "logs"
+        },
+        {
+            "datasource": {
+                "default": true,
+                "type": "loki",
+                "uid": "fef8olyczs2rka"
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 12,
+                "x": 0,
+                "y": 35
+            },
+            "id": 11,
+            "options": {
+                "dedupStrategy": "none",
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": true,
+                "sortOrder": "Ascending",
+                "wrapLogMessage": false
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "def36ufwo6mm8f"
+                    },
+                    "editorMode": "builder",
+                    "expr": "{service_name=\"library-loans\"} | json | line_format `[{{.level}}] {{.body}}`",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "Logs Library Loans",
             "type": "logs"
         }
     ],
@@ -476,6 +744,6 @@
     "timezone": "browser",
     "title": "Open telemetry",
     "uid": "eef36u0at0um8a",
-    "version": 4,
+    "version": 6,
     "weekStart": ""
 }
