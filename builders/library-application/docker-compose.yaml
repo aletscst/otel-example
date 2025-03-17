@@ -1,14 +1,55 @@
 services:
-  library-users-api:
-    container_name: library-users-api
-    build:
-      context: ../../library-users
-    ports:
-      - "8081:8081"
-
   library-api:
     container_name: library-api
+    env_file:
+      - docker.env
     build:
-      context: ../../library
+      context: ../..
+      dockerfile: ./library/Dockerfile
+      args:
+        LIBRARY_USERS_URL_BASE: $LIBRARY_USERS_URL_BASE
+        MYSQL_HOST: $MYSQL_HOST
+        OTEL_EXPORTER_OTLP_ENDPOINT: $OTEL_EXPORTER_OTLP_ENDPOINT
     ports:
       - "8080:8080"
+
+  library-users-api:
+    container_name: library-users-api
+    env_file:
+      - "docker.env"
+    build:
+      context: ../..
+      dockerfile: ./library-users/Dockerfile
+      args:
+        MYSQL_HOST: $MYSQL_HOST
+        OTEL_EXPORTER_OTLP_ENDPOINT: $OTEL_EXPORTER_OTLP_ENDPOINT
+    ports:
+      - "8081:8081"
+  
+  library-books-api:
+    container_name: library-books-api
+    env_file:
+      - "docker.env"
+    build:
+      context: ../..
+      dockerfile: ./library-books/Dockerfile
+      args:
+        MYSQL_HOST: $MYSQL_HOST
+        OTEL_EXPORTER_OTLP_ENDPOINT: $OTEL_EXPORTER_OTLP_ENDPOINT
+    ports:
+      - "8082:8082"
+  
+  library-loans-api:
+    container_name: library-loans-api
+    env_file:
+      - "docker.env"
+    build:
+      context: ../..
+      dockerfile: ./library-loans/Dockerfile
+      args:
+        LIBRARY_USERS_URL_BASE: $LIBRARY_USERS_URL_BASE
+        LIBRARY_BOOKS_URL_BASE: $LIBRARY_BOOKS_URL_BASE
+        MYSQL_HOST: $MYSQL_HOST
+        OTEL_EXPORTER_OTLP_ENDPOINT: $OTEL_EXPORTER_OTLP_ENDPOINT
+    ports:
+      - "8083:8083"

@@ -1,4 +1,4 @@
-package com.ammfec.dto;
+package com.ammfec.dto.general;
 
 import lombok.Data;
 
@@ -8,8 +8,6 @@ public class User {
     private String name;
     private String lastName;
     private String email;
-    private String password;
     private String type;
     private String address;
 }
-

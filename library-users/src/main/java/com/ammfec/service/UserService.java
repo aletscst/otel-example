@@ -1,18 +1,20 @@
 package com.ammfec.service;
 
-import com.ammfec.dto.User;
+import com.ammfec.dto.request.UserRequest;
+import com.ammfec.dto.response.UserResponse;
+import com.ammfec.dto.response.UsersResponse;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getUsers();
+    UsersResponse getUsers();
 
-    User getUser(Integer id);
+    UserResponse getUser(Integer id);
 
-    User createUser(User user);
+    UserResponse createUser(UserRequest user);
 
-    User updateUser(Integer id, User user);
+    UserResponse updateUser(Integer id, UserRequest user);
 
     void deleteUser(Integer id);
 }
