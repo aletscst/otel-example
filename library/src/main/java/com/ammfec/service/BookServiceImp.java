@@ -2,31 +2,30 @@ package com.ammfec.service;
 
 import com.ammfec.dto.response.BookResponse;
 import com.ammfec.dto.response.BooksResponse;
+import com.ammfec.web_client.BookClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
 public class BookServiceImp implements BookService {
-    RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${library.books.url-base}")
-    private String baseUrl;
+    @Autowired
+    private BookClient bookClient;
 
     @Override
     public BooksResponse getAllBooks() {
-        log.info("called getAllBooks to library service {}", baseUrl);
-        ResponseEntity<BooksResponse> response = restTemplate.getForEntity( baseUrl + "/books", BooksResponse.class);
+        log.info("called getAllBooks to library service");
+        ResponseEntity<BooksResponse> response = bookClient.getBooks();
         return response.getBody();
     }
 
     @Override
     public BookResponse getBookById(Integer id) {
-        log.info("called getBookById to library service {}", baseUrl);
-        ResponseEntity<BookResponse> response = restTemplate.getForEntity( baseUrl + "/books/" + id, BookResponse.class);
+        log.info("called getBookById to library service");
+        ResponseEntity<BookResponse> response = bookClient.getBookById(id);
         return response.getBody();
     }
 }

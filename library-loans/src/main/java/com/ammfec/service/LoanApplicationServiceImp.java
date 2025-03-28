@@ -8,6 +8,8 @@ import com.ammfec.dto.general.User;
 import com.ammfec.dto.request.LoanApplicationRequest;
 import com.ammfec.dto.response.*;
 import com.ammfec.exception.NotFoundException;
+import com.ammfec.web_client.BookClient;
+import com.ammfec.web_client.UserClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,13 +27,11 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
     @Autowired
     private LoanApplicationRepository repository;
 
-    RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private UserClient userClient;
 
-    @Value("${library.users.api.url}")
-    private String apiUsersBaseUrl;
-
-    @Value("${library.books.api.url}")
-    private String apiBooksBaseUrl;
+    @Autowired
+    private BookClient bookClient;
 
     @Override
     public LoanApplicationsResponse getLoanApplications() {
@@ -97,7 +97,7 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
     }
 
     private User getUser(Integer id) {
-        ResponseEntity<UserResponse> response = restTemplate.getForEntity( apiUsersBaseUrl + "/users/" + id , UserResponse.class);
+        ResponseEntity<UserResponse> response = userClient.getUser(id);
 
         if(response.getStatusCode().is2xxSuccessful()) {
             return Objects.requireNonNull(response.getBody()).getUser();
@@ -108,7 +108,7 @@ public class LoanApplicationServiceImp implements LoanApplicationService {
     }
 
     private Book getBook(Integer id) {
-        ResponseEntity<BookResponse> response = restTemplate.getForEntity( apiBooksBaseUrl + "/books/" + id , BookResponse.class);
+        ResponseEntity<BookResponse> response = bookClient.getBook(id);
 
         if(response.getStatusCode().is2xxSuccessful()) {
             return Objects.requireNonNull(response.getBody()).getBook();
