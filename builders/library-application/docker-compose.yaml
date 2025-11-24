@@ -53,3 +53,17 @@ services:
         OTEL_EXPORTER_OTLP_ENDPOINT: $OTEL_EXPORTER_OTLP_ENDPOINT
     ports:
       - "8083:8083"
+  
+  library-notifications:
+    container_name: library-notifications
+    env_file:
+      - docker.env
+    build:
+      context: ../..
+      dockerfile: ./library-notifications/Dockerfile
+      args:
+        LIBRARY_USERS_URL_BASE: $LIBRARY_USERS_URL_BASE
+        MYSQL_HOST: $MYSQL_HOST
+        OTEL_EXPORTER_OTLP_ENDPOINT: $OTEL_EXPORTER_OTLP_ENDPOINT
+    ports:
+      - "3700:3700"
